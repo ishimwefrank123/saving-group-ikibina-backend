@@ -1,11 +1,11 @@
 
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import {
   loginUser,
   registerUser
-} from "../services/auth.service";
+} from "../services/auth.service.js";
 
 const registerSchema = z.object({
   name: z.string().trim().min(2).max(100),

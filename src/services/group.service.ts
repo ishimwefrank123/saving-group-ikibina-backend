@@ -1,8 +1,8 @@
 
-import { Group } from "../models/Group";
-import { Membership } from "../models/Membership";
-import { ApiError } from "../utils/ApiError";
-import { generateInviteCode } from "../utils/generateInviteCode";
+import { Group } from "../models/Group.js";
+import { Membership } from "../models/Membership.js";
+import { ApiError } from "../utils/ApiError.js";
+import { generateInviteCode } from "../utils/generateInviteCode.js";
 
 type CreateGroupInput = {
   name: string;
@@ -103,7 +103,7 @@ export async function getMyGroups(userId: string) {
     status: "active"
   }).populate("group");
 
-  return memberships.map((membership) => ({
+  return memberships.map((membership: any) => ({
     role: membership.role,
     group: membership.group
   }));

@@ -5,7 +5,7 @@ import type {
 } from "express";
 import mongoose from "mongoose";
 import { ZodError } from "zod";
-import { ApiError } from "../utils/ApiError";
+import { ApiError } from "../utils/ApiError.js";
 
 export const notFound: RequestHandler = (_req, res) => {
   res.status(404).json({

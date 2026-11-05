@@ -1,8 +1,8 @@
 
 import type { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../models/User";
-import { ApiError } from "../utils/ApiError";
+import { User } from "../models/User.js";
+import { ApiError } from "../utils/ApiError.js";
 
 interface TokenPayload {
   userId: string;

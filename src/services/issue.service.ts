@@ -1,6 +1,6 @@
-import { Issue } from "../models/Issue";
-import { Membership } from "../models/Membership";
-import {ApiError} from "../utils/ApiError"
+import { Issue } from "../models/Issue.js";
+import { Membership } from "../models/Membership.js";
+import { ApiError } from "../utils/ApiError.js";
 
 export async function createIssue(
     userId: string,

@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import z from "zod";
-import { asyncHandler } from "../utils/asyncHandler";
-import * as groupService from "../services/group.service"
+import { asyncHandler } from "../utils/asyncHandler.js";
+import * as groupService from "../services/group.service.js";
 
 
 const createSchema = z.object({
@@ -9,7 +9,7 @@ const createSchema = z.object({
     description: z.string().trim().max(500).optional(),
     contributionAmount: z.number().finite().min(0),
     contributionFrequency: z.enum(["weekly", "monthly"]),
-    loanInterestRat: z.number().finite().min(0).max(100),
+    loanInterestRate: z.number().finite().min(0).max(100),
     maxLoanAmount: z.number().finite().min(0)
 });
 
@@ -62,7 +62,7 @@ export const getOne = asyncHandler(
     async (req: Request, res: Response) => {
         const result = await groupService.getGroupForMember(
             req.user!.id,
-            req.params.groupId
+            req.params.groupId as string
         )
         
         res.json({success: true, data: result});
@@ -75,7 +75,7 @@ export const updateRules = asyncHandler(
 
         const group = await groupService.updateGroupRules(
             req.user!.id,
-            req.params.groupId,
+            req.params.groupId as string,
             input
         );
         res.json({success:true, data: group});
@@ -86,7 +86,7 @@ export const members = asyncHandler(
     async(req: Request, res: Response) => {
         const members = await groupService.getGroupMembers(
             req.user!.id,
-            req.params.groupId
+            req.params.groupId as string
         );
         res.json({success: true, data: members})
     }
@@ -100,8 +100,8 @@ export const changeRole = asyncHandler(
 
         const result = await groupService.changeMemberRole(
             req.user!.id,
-            req.params.groupId,
-            req.params.userId,
+            req.params.groupId as string,
+            req.params.userId as string as string,
             input.role
         );
 
@@ -113,8 +113,8 @@ export const remove = asyncHandler(
     async (req: Request, res: Response) => {
         const result = await groupService.removeMember(
             req.user!.id,
-            req.params.groupId,
-            req.params.userId
+            req.params.groupId as string,
+            req.params.userId as string
         );
 
         res.json({success: true, data: result})

@@ -1,8 +1,19 @@
 
-import express, { Request, Response } from "express";
+import "dotenv/config";
+import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { setupSwagger } from "./config/swagger.js";
+
+import authRoutes from "./routes/auth.routes.js";
+import groupRoutes from "./routes/group.routes.js";
+import issueRoutes from "./routes/issue.routes.js";
+import platformAdminRoutes from "./routes/platformAdmin.routes.js";
+
+import {
+  errorHandler,
+  notFound
+} from "./middleware/errorHandler.js";
 
 const app = express();
 
@@ -27,15 +38,16 @@ app.use(express.urlencoded({ extended: true }));
 setupSwagger(app);
 
 // Register feature routes 
-
+app.use("/api/auth", authRoutes);
+app.use("/api/groups", groupRoutes);
+app.use("/api/issues", issueRoutes);
+app.use("/api/platform-admin", platformAdminRoutes);
 
 
 // Handle unknown routes
-app.use((_req: Request, res: Response) => {
-  res.status(404).json({
-    success: false,
-    message: "API endpoint not found",
-  });
-});
+app.use(notFound);
+
+// Central error handling middleware
+app.use(errorHandler);
 
 export default app;

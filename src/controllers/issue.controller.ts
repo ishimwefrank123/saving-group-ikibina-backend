@@ -1,7 +1,7 @@
 import type {Request, Response} from "express";
 import z from "zod";
-import { asyncHandler } from "../utils/asyncHandler";
-import { createIssue } from "../services/issue.service";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { createIssue } from "../services/issue.service.js";
 
 export const create = asyncHandler(
     async (req: Request, res: Response) => {
