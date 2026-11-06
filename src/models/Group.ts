@@ -1,5 +1,4 @@
-import mongoose, { Document } from "mongoose";
-import { maxLength, minLength, string } from "zod";
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IGroup extends Document{
     name: string;
@@ -65,7 +64,7 @@ const groupSchema = new Schema<IGroup>(
         status: {
             type: String,
             enum: ["active","frozen"],
-            default: "acitve"
+            default: "active"
         },
         freezeReason: {
             type: String,

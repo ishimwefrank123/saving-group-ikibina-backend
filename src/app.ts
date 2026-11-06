@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { setupSwagger } from "./config/swagger.js";
+import walletRouter from "./routes/wallet.routes.js";
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 setupSwagger(app);
 
 // Register feature routes 
-
+app.use("/api/wallet", walletRouter);
 
 
 // Handle unknown routes
