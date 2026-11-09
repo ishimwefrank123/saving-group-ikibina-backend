@@ -1,53 +1,60 @@
-import mongoose, {Schema, type Document} from "mongoose";
+import mongoose, { Schema, type Document } from "mongoose";
 
 export type PlatformRole = "user" | "platform-admin";
 export type AccountStatus = "active" | "blocked";
 
-export interface IUser extends Document{
-    name: string;
-    email: string;
-    password: string;
-    platformRole: PlatformRole;
-    status: AccountStatus;
-    createdAt: Date;
-    updatedAt: Date;
+export interface IUser extends Document {
+  _id: mongoose.Types.ObjectId;
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  platformRole: PlatformRole;
+  status: AccountStatus;
+  blockReason?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const userSchema = new Schema<IUser> (
-    {
-        name: {
-            type: String,
-            required: true,
-            trim: true,
-            minlength: 2,
-            maxlength: 100
-        },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true,
-            index: true
-        },
-        password: {
-            type: String,
-            required: true,
-            select: false
-        },
-        platformRole:{
-            type: String,
-            enum: ["user","platform-admin"],
-            default: "user"
-        },
-        status:{
-            type: String,
-            enum: ["active" , "blocked"],
-            default: "active",
-        }
+const userSchema = new Schema<IUser>(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 2,
+      maxlength: 100,
     },
-    {timestamps: true}
-
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+    },
+    platformRole: {
+      type: String,
+      enum: ["user", "platform-admin"],
+      default: "user",
+    },
+    status: {
+      type: String,
+      enum: ["active", "blocked"],
+      default: "active",
+    },
+    blockReason: {
+      type: String,
+      trim: true,
+      maxlength: 500,
+    },
+  },
+  { timestamps: true }
 );
 
-export const User = mongoose.model<IUser>("User", userSchema)
+export const User = mongoose.model<IUser>("User", userSchema);
