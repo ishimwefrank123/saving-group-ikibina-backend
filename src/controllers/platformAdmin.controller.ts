@@ -88,7 +88,7 @@ export const getGroup =  asyncHandler(async (req: Request, res: Response) => {
     });
 });
 
-export const groupStatus = asyncHandler(async (req: Requet, res: Response) => {
+export const groupStatus = asyncHandler(async (req: Request, res: Response) => {
     const input = z
     .object({
         status: z.enum(["active","frozen"]),
@@ -112,7 +112,7 @@ export const groupStatus = asyncHandler(async (req: Requet, res: Response) => {
 
     res.json({
         success: true,
-        message: `Group has been ${input.staus === "frozen" ? "frozen" : "activated"}`,
+        message: `Group has been ${input.status === "frozen" ? "frozen" : "activated"}`,
         data: group,
     });
 });

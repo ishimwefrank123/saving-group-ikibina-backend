@@ -4,11 +4,12 @@ import { Membership } from "../models/Membership.js";
 import { User } from "../models/User.js";
 import { ApiError } from "../utils/ApiError.js";
 
-export interface ListUserQuery{
+export interface ListUsersQuery{
   search?: string;
   status?: "active" | "blocked";
   platformRole?: "user" | "platform-admin";
 }
+export type ListUserQuery = ListUsersQuery;
 
 export interface ListGroupsQuery{
   search?: string;
@@ -99,7 +100,7 @@ export async function dashboard() {
   // List all users with search and filtering
 
   export async function listUsers(query: ListUsersQuery = {}){
-    const filter: Record<string, unkown> = {};
+    const filter: Record<string, unknown> = {};
 
     if(query.search){
       const searchRegex = new RegExp(query.search.trim(),"i");
@@ -110,7 +111,7 @@ export async function dashboard() {
       filter.status = query.status;
     }
 
-    if(query.plaformRole){
+    if(query.platformRole){
       filter.platformRole = query.platformRole;
     }
 
@@ -130,7 +131,7 @@ export async function dashboard() {
       Membership.find({user: userId})
       .populate("group", "name inviteCode status contributionAmount contributionFrequency")
       .sort({joinedAt: -1}),
-      User.find({reportedBy: userId})
+      Issue.find({reportedBy: userId})
       .populate("group", "name inviteCode")
       .sort({createdAt: -1}),
     ]);
@@ -141,11 +142,11 @@ export async function dashboard() {
   export async function setUserStatus(
     actorId: string,
     userId: string,
-    staus: "active" | "blocked",
+    status: "active" | "blocked",
     reason?: string
   ){
     if(actorId === userId && status === "blocked"){
-      throw new ApiError(400, "You cannot block your own acount");
+      throw new ApiError(400, "You cannot block your own account");
     }
     const user = await User.findByIdAndUpdate(
       userId,
@@ -166,7 +167,7 @@ export async function dashboard() {
   // List all groups with search and member counts
 
   export async function listGroups(query: ListGroupsQuery = {}){
-    const filter: Record<string, unkown> = {};
+    const filter: Record<string, unknown> = {};
 
     if(query.search){
       const searchRegex = new RegExp(query.search.trim(), "i");
@@ -294,13 +295,13 @@ export async function dashboard() {
       issueId,
       {
         status: input.status,
-        adminNote: input.adminNote
+        adminNote: input.adminNote,
         resolvedBy: isResolvedOrDismissed ? actorId: undefined,
       },
       {new: true, runValidators: true}
     )
     .populate("reportedBy", "name email")
-    .populate("group", "name invideCode status")
+    .populate("group", "name inviteCode status")
     .populate("resolvedBy","name email");
 
     if(!issue){

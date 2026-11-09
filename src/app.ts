@@ -9,6 +9,8 @@ import authRoutes from "./routes/auth.routes.js";
 import groupRoutes from "./routes/group.routes.js";
 import issueRoutes from "./routes/issue.routes.js";
 import platformAdminRoutes from "./routes/platformAdmin.routes.js";
+import walletRoutes from "./routes/wallet.routes.js";
+import ledgerRoutes from "./routes/ledger.routes.js";
 
 import {
   errorHandler,
@@ -42,6 +44,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/groups", groupRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/platform-admin", platformAdminRoutes);
+app.use("/api/wallet", walletRoutes);
+app.use("/api/ledger", ledgerRoutes);
 
 
 // Handle unknown routes
